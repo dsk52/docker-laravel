@@ -22,3 +22,13 @@ services:
       - DB_DATABASE="${DB_DATABASE}"
       - DB_USERNAME="${DB_USERNAME}"
       - DB_PASSWORD="${DB_PASSWORD}"
+
+  db:
+    build: docker/php
+    container_name: "docker-laravel_db"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
+      - MYSQL_DATABASE="${DB_DATABASE}"
+    ports:
+      - 3306:3306
