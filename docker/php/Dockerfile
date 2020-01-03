@@ -6,9 +6,7 @@ RUN apk --no-cache --update add \
   autoconf \
   curl-dev \
   cmake \
-  freetype-dev \
   libzip \
-  libjpeg-turbo-dev \
   libpng-dev \
   libxml2 \
   libxml2-dev \
@@ -16,26 +14,25 @@ RUN apk --no-cache --update add \
   pcre-dev \
   g++ \
   make \
-  openssl \
   gd \
   bash \
   vim \
-  oniguruma \
+  icu-dev \
+  libzip-dev \
   oniguruma-dev && \
   docker-php-ext-install \
-  # ctype \ is already loaded!
-  # json \ is already loaded!
-  # mbstring \ is already loaded!
-  # pdo \ is already loaded!
-  # simplexml \ is already loaded!
+  intl \
+  mbstring \
+  bcmath \
   pdo_mysql \
-  # zip \ peclからのインストールが必要みたい
+  zip \
   opcache \
   gd && \
-  docker-php-ext-configure gd && \
-  # --with-freetype-dir=/usr/include/ \
-  # --with-jpeg-dir=/usr/include/ \
-  # --with-png-dir=/usr/include/ && \
+  docker-php-ext-configure \
+  zip && \
+  # opcache \
+   # pdo_mysql \
+  # sodium \
   apk --update --no-cache add tzdata && \
   cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
   apk del tzdata && \
@@ -43,7 +40,8 @@ RUN apk --no-cache --update add \
   php -r "if (hash_file('sha384', 'composer-setup.php') === 'baf1608c33254d00611ac1705c1d9958c817a1a33bce370c0595974b342601bd80b92a3f46067da89e3b06bff421f182') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
   php composer-setup.php && \
   php -r "unlink('composer-setup.php');" && \
-  mv composer.phar /usr/local/bin/composer
+  mv composer.phar /usr/local/bin/composer && \
+  composer global require laravel/installer
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
