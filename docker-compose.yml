@@ -12,6 +12,7 @@ services:
       - ./src:/var/www/
     ports:
       - "8000:80"
+    restart: always
 
   php-fpm:
     build: docker/php
@@ -20,11 +21,13 @@ services:
       - db
     volumes:
       - ./src:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
     environment:
       - DB_HOST="${DB_HOST}"
       - DB_DATABASE="${DB_DATABASE}"
       - DB_USERNAME="${DB_USERNAME}"
       - DB_PASSWORD="${DB_PASSWORD}"
+    restart: always
 
   db:
     build: docker/mysql
@@ -37,6 +40,7 @@ services:
       - db-store:/var/lib/mysql
     ports:
       - 3306:3306
+    restart: always
 
 volumes:
   db-store:

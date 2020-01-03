@@ -16,6 +16,9 @@
 Only first time.
 
 ```
+$ cd src
+$ git clone CLONE_URL project
+
 $ docker-compose up --build -d
 ```
 
