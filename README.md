@@ -2,8 +2,8 @@
 
 ## Env
 
-- Docker 19.03.5
-- docker-compose 1.24.1
+- Docker
+  - docker-compose
 - NGINX 1.16.0
 - PHP(php-fpm) 7.4.1
 - MySQL 8.0.18
@@ -15,10 +15,19 @@
 
 Only first time.
 
-```
-$ cd src
-$ git clone CLONE_URL project
+1. create laravel project dir
 
+```
+$ cd code
+
+$ mkdir project // create laravel project dir (recommend another repository)
+or
+$ git clone CLONE_URL project
+```
+
+2. create docker container
+
+```
 $ docker-compose up --build -d
 ```
 
