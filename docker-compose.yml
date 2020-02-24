@@ -43,6 +43,13 @@ services:
     ports:
       - 3306:3306
     restart: always
+  
+  memcached:
+    build: docker/memcached
+    container_name: "docker-laravel_memcached"
+    ports:
+      - 11211:11211
+    restart: always
 
 volumes:
   mysql-data:
