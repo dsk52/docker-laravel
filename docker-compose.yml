@@ -16,12 +16,13 @@ services:
     restart: always
 
   php-fpm:
-    build: docker/php
+    build: docker/php-fpm
     container_name: "docker-laravel_php"
     depends_on:
       - db
     volumes:
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini:cached
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php.ini:cached
+      - ./var/log/php:/var/log
       - ./code:/var/www/
     environment:
       - DB_HOST="${DB_HOST}"
@@ -38,10 +39,10 @@ services:
       - MYSQL_DATABASE="${DB_DATABASE}"
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:cached
-      - db-store:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     ports:
       - 3306:3306
     restart: always
 
 volumes:
-  db-store:
+  mysql-data:
