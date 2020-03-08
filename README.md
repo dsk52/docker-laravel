@@ -5,9 +5,10 @@
 - Docker
   - docker-compose
 - NGINX 1.16.0
-- PHP(php-fpm) 7.4.1
+- PHP(php-fpm) 7.3.15
 - MySQL 8.0.18
 - (Node.js 12.7.0)
+- memcached 1.5.22
 
 8000 -nginx:80-> php-fpm:9000
 
