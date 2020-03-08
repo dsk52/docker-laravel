@@ -1,12 +1,15 @@
 FROM php:7.3.15-fpm-alpine
 
+# イメージアップデート&タイムゾーン設定
 RUN apk update && \
   apk --update --no-cache add \
-  # タイムゾーン設定
   tzdata && \
   cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
   apk del tzdata && \
-  chown -R www-data:www-data /var/www && \
+
+# 必要パッケージのインストール
+RUN chown -R www-data:www-data /var/www && \
+  apk --update --no-cache add \
   apk --no-cache add \
   autoconf \
   bzip2-dev \
@@ -53,8 +56,10 @@ RUN apk update && \
     igbinary \
     msgpack \
     memcached && \
-  # composer 1.9.3
-  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+  apk del g++ make cmake
+
+# composer 1.9.3
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
   php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
   php composer-setup.php && \
   php -r "unlink('composer-setup.php');" && \
@@ -62,7 +67,6 @@ RUN apk update && \
   # laravelインストーラーのインストール
   composer global require laravel/installer && \
   # 不要パッケージ削除
-  apk del g++ make cmake
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
