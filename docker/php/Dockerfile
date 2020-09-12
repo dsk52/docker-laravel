@@ -1,4 +1,4 @@
-FROM php:7.4.1-fpm-alpine
+FROM php:7.3.22-fpm-alpine
 
 COPY php.ini /usr/local/etc/php/
 
@@ -29,15 +29,17 @@ RUN apk --no-cache --update add \
   opcache \
   gd && \
   docker-php-ext-configure \
-  zip && \
+  zip
   # opcache \
    # pdo_mysql \
   # sodium \
-  apk --update --no-cache add tzdata && \
+
+RUN apk --update --no-cache add tzdata && \
   cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
-  apk del tzdata && \
-  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-  php -r "if (hash_file('sha384', 'composer-setup.php') === 'baf1608c33254d00611ac1705c1d9958c817a1a33bce370c0595974b342601bd80b92a3f46067da89e3b06bff421f182') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+  apk del tzdata
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+  php -r "if (hash_file('sha384', 'composer-setup.php') === '795f976fe0ebd8b75f26a6dd68f78fd3453ce79f32ecb33e7fd087d39bfeb978342fb73ac986cd4f54edd0dc902601dc') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
   php composer-setup.php && \
   php -r "unlink('composer-setup.php');" && \
   mv composer.phar /usr/local/bin/composer && \
