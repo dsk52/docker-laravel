@@ -43,6 +43,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
   php composer-setup.php && \
   php -r "unlink('composer-setup.php');" && \
   mv composer.phar /usr/local/bin/composer && \
+  composer config -g repos.packagist composer https://packagist.jp && \
+  composer config -g --unset repos.packagist && \
   composer global require laravel/installer
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
