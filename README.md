@@ -18,7 +18,26 @@ Only first time.
 ```
 $ cd src
 $ git clone CLONE_URL project
+```
 
+```
+$ vi docker/nginx/default.conf
+1. 
+location / {
+    root /var/www/project/public;
+
+location / {
+    root /var/www/SOME_PROJECT_NAME/public;
+
+2.
+location ~ [^/]\.php(/|$) {
+    root /var/www/project/public;
+
+location ~ [^/]\.php(/|$) {
+    root /var/www/SOME_PROJECT_NAME/public;
+```
+
+```
 $ docker-compose up --build -d
 ```
 
